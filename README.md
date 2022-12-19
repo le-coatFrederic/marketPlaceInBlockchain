@@ -12,7 +12,7 @@ This project requires Java 8 or higher.
 
 ### Installing
 
-Firstly you have to download the project. Then reach the folder in a terminal and launch the command 
+Firstly you have to download the project. Then reach the folder in a terminal and launch the command :
 ```
 javac ./src/*.java
 ``` 
