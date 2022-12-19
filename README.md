@@ -19,8 +19,9 @@ javac ./src/*.java
 
 ### Running the program
 
-You now have to launch the program by right-clicking on it and chose java or with that command :
+You now have to launch the program by right-clicking on Main.class and chose java or with these command :
 ```
+cd src
 java Main
 ```
 
