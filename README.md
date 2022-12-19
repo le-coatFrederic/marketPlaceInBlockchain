@@ -10,6 +10,20 @@ These instructions will get you a copy of the project up and running on your loc
 
 This project requires Java 8 or higher.
 
+### Installing
+
+Firstly you have to download the project. Then reach the folder in a terminal and launch the command 
+```
+javac ./src/*.java
+``` 
+
+### Running the program
+
+You now have to launch the program by right-clicking on it and chose java or with that command :
+```
+java Main
+```
+
 ## Built With
 
 - [Java](https://www.java.com/) - The programming language used
