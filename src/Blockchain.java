@@ -5,17 +5,19 @@ public class Blockchain extends Observable {
     public static Blockchain blockchainVerifiee = new Blockchain();
     private ArrayList<Bloc> blocs;
     private ArrayList<Enchere> encheres;
-    private Object blocage;
+    private Motdepasse blocage = new Motdepasse("123");
+    private int nbrEnchere;
 
     public Blockchain() {
         synchronized(blocage) {
             blocs = new ArrayList<>();
             encheres = new ArrayList<>();
             blocs.add(new Bloc(0, null));
+            nbrEnchere = 0;
         }
     }
 
-    public void ajouterBloc(Bloc bloc, Offre offre) {
+    public void ajouterBloc(Offre offre) {
         synchronized(blocage) {
             Bloc blocPrecedent = blocs.get(blocs.size() - 1);
                 if (encheres.size() != 0)
@@ -33,7 +35,11 @@ public class Blockchain extends Observable {
         synchronized(blocage) {
             if (enchere == null)
                 throw new IllegalArgumentException();
-            encheres.add(enchere);
+            if (nbrEnchere > 0) {
+                encheres.add(enchere);
+                System.out.println("Enchere " + enchere + " a ete ajoute");
+                nbrEnchere -= 1;
+            }
         }
     }
 
@@ -47,5 +53,14 @@ public class Blockchain extends Observable {
         synchronized(blocage) {
             return encheres;
         }
+    }
+
+    public void setNbrEnchere(int nbr) {
+        if (nbr > 0)
+            nbrEnchere = nbr;
+    }
+
+    public int getNbrEnchere() {
+        return nbrEnchere;
     }
 }

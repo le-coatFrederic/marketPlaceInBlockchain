@@ -8,8 +8,6 @@ public class Programme {
     }
 
     public static void main(String[] args) {
-        static Blockchain blockchainClassique = new Blockchain();
-        Blockchain blockchainVerifie = new Blockchain();
         ListeUsager usagers = new ListeUsager();
         int nbrAcheteur = 0;
         int nbrVendeur = 0;
@@ -27,12 +25,15 @@ public class Programme {
         System.out.println("Nombre de mineur ?");
         nbrMineur = sc.nextInt();
 
+        System.out.println("Nombre d'enchere ?");
+        Blockchain.blockchainPrimaire.setNbrEnchere(sc.nextInt());
+
         int i;
         int taille = usagers.getUsagers().size();
         for (i = 0; i < nbrMineur; i++) {
             usagers.ajouterUsager(new Usager(noms.avoirNom(), "00000", Role.MINEUR));
-            blockchainVerifie.ajouterObservateur(ObservOptions.BlocAVerifier, usagers.getUsagers().get(taille + i));
-            blockchainClassique.ajouterObservateur(ObservOptions.BlocAVerifier, usagers.getUsagers().get(taille + i));
+            Blockchain.blockchainPrimaire.ajouterObservateur(ObservOptions.BlocAVerifier, usagers.getUsagers().get(taille + i));
+            Blockchain.blockchainVerifiee.ajouterObservateur(ObservOptions.BlocAVerifier, usagers.getUsagers().get(taille + i));
         }
 
         taille += nbrMineur;
@@ -43,8 +44,8 @@ public class Programme {
         taille += nbrVendeur;
         for (i = 0; i < nbrAcheteur; i++) {
             usagers.ajouterUsager(new Usager(noms.avoirNom(), "11111", Role.ACHETEUR));
-            blockchainClassique.ajouterObservateur(ObservOptions.EnchereDemarre, usagers.getUsagers().get(taille + i));
-            blockchainClassique.ajouterObservateur(ObservOptions.EnchereTermine, usagers.getUsagers().get(taille + i));
+            Blockchain.blockchainPrimaire.ajouterObservateur(ObservOptions.EnchereDemarre, usagers.getUsagers().get(taille + i));
+            Blockchain.blockchainVerifiee.ajouterObservateur(ObservOptions.EnchereTermine, usagers.getUsagers().get(taille + i));
         }
 
         taille += nbrMineur;
@@ -84,13 +85,24 @@ public class Programme {
             usagers.getUsager("G").trouverPrefixe(blockchain.getBlocs().get(blockchain.getBlocs().size()-1));*/ 
 
         System.out.println("Debut chronos");
+
         try {
             Thread.sleep(5000);
         } catch (Exception e) {
             e.getStackTrace();
         }
+        
         System.out.println("Fin chronos");
         for (i = 0; i < usagers.getUsagers().size(); i++)
             usagers.getUsagers().get(i).changerStatut();
+
+        try {
+            Thread.sleep(5000);
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+
+        for (Enchere enchere : Blockchain.blockchainPrimaire.getAllEncheres())
+            System.out.println(enchere);
     }
 }

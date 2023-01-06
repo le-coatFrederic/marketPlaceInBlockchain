@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.util.Random;
+import java.util.Set;
 
 public class Usager implements Serializable, Runnable, Observateur {
     protected String nom;
@@ -131,7 +132,12 @@ public class Usager implements Serializable, Runnable, Observateur {
                 ajouterObjet(new Objet(NomAleatoire.nomsObjets.avoirNom(), ""));
             System.out.println("Je suis " + nom + ", un vendeur qui a ces objets : " + inventaire);
             while(continuer) { //tout ce que le vendeur va faire 
-                System.out.println("Vendeur " + nom + " travaille");
+                if (inventaire.objets.size() != 0) {
+                    Set<String> cles = inventaire.objets.keySet();
+                    for (String cle : cles) {
+                        Blockchain.blockchainPrimaire.ajouterEnchere(creerEnchere(cle, aleatoire.nextInt(50), aleatoire.nextInt(60) + 20));
+                    }
+                }
             }
             System.out.println("Fin");
         }
